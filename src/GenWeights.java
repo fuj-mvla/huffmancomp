@@ -51,6 +51,9 @@ public class GenWeights {
 	 */
 	void initWeights() {
 		// TODO #1
+		for (int i=0;i < weights.length;i++) {
+			weights[i]=0;
+		}
 	}
 
 	/**
@@ -85,9 +88,48 @@ public class GenWeights {
 	 */
 	void generateWeights(String infName) {
 		// TODO #2: write this method and any helper methods
-		System.out.println("generateWeights has not been implemented yet!");
+		if (errorCheck(infName)) {
+			return;
+		}
+		initWeights();
+		int EOF = 0;
+		File file = fio.getFileHandle(infName);
+		BufferedReader br = fio.openBufferedReader(file);
+		
+		try {
+			char c;
+			while ((c=(char) br.read())!=EOF) {
+				weights[c& 0b1111111]++;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		weights[0]++;
+		fio.closeFile(br);
+		
 		return;
 
+	}
+	private boolean errorCheck(String filename) {
+		int check = fio.getFileStatus(fio.getFileHandle(filename),true);
+		if (check==MyFileIO.EMPTY_NAME ) {
+			hca.issueAlert(HuffAlerts.INPUT, "Empty Name", "Empty File Name");
+			return true;
+		}
+		else if (check==MyFileIO.FILE_DOES_NOT_EXIST) {
+			hca.issueAlert(HuffAlerts.INPUT, "File Does not Exist", "File does not exist");
+			return true;
+		}
+		else if (check==MyFileIO.READ_ZERO_LENGTH) {
+			hca.issueAlert(HuffAlerts.INPUT, "Read zero Length", "File is empty");
+			return true;
+		}
+		else if (check ==MyFileIO.NO_READ_ACCESS) {
+			hca.issueAlert(HuffAlerts.INPUT, "No read access", "Cannot Read file");
+			return true;
+		}
+		return false;
 	}
 	
 	/**
