@@ -92,14 +92,14 @@ public class GenWeights {
 			return;
 		}
 		initWeights();
-		int EOF = 0;
+		int EOF = -1;
 		File file = fio.getFileHandle(infName);
 		BufferedReader br = fio.openBufferedReader(file);
 		
 		try {
-			char c;
-			while ((c=(char) br.read())!=EOF) {
-				weights[c& 0b1111111]++;
+			int c;
+			while ((c=  br.read())!=EOF) {
+				weights[c]++;
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -107,7 +107,7 @@ public class GenWeights {
 		}
 		weights[0]++;
 		fio.closeFile(br);
-		
+		printWeights();
 		return;
 
 	}
@@ -183,9 +183,39 @@ public class GenWeights {
 	 */
 	 void saveWeightsToFile(String outfName) {
 		// TODO #3: write this method (and any helper methods)
-		return;
+		
+		 if (errorCheckWrite(outfName)){
+			 return;
+		 }
+		 if (!hca.issueAlert(HuffAlerts.CONFIRM, "CONFIRM", "Confirm to write to file?")) {
+			 return;
+		 };
+			
+		BufferedWriter wr = fio.openBufferedWriter(fio.getFileHandle(outfName));
+		String x= "";
+		for (int i=0;i < weights.length;i++) {
+			x += i + "," + weights[i] + ",\n";
+		}
+		try {
+			wr.write(x);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fio.closeFile(wr);
 	}
-
+	 private boolean errorCheckWrite(String out) {
+		 File file = fio.getFileHandle(out);
+		 if (fio.getFileStatus(file, false)==MyFileIO.EMPTY_NAME) {
+			 hca.issueAlert(HuffAlerts.OUTPUT, "Empty Name", "Empty File Name");
+				return true;
+		 }
+		 else if (fio.getFileStatus(file, false)==MyFileIO.NO_WRITE_ACCESS) {
+			 hca.issueAlert(HuffAlerts.OUTPUT, "No Write Access", "No Write Access");
+				return true;
+		 }
+		 return false;
+	 }
 	
 	/**
 	 * Read input file and return weights - JUNIT USE ONLY!!! 
