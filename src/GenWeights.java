@@ -99,7 +99,9 @@ public class GenWeights {
 		try {
 			char c;
 			while ((c=(char) br.read())!=EOF) {
-				weights[c& 0b1111111]++;
+				
+				if (c>127) c&= 0x80;
+				weights[c]++;
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
