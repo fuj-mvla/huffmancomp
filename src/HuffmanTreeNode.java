@@ -151,7 +151,16 @@ public class HuffmanTreeNode {
 		@Override
 		public int compare(HuffmanTreeNode ht1, HuffmanTreeNode ht2) {
 			// TODO: write this method
-			return -1; // remove when this method is written
+			if (ht1.getWeight() != ht2.getWeight()) {
+				return Integer.compare(ht1.getWeight(), ht2.getWeight());
+			}
+			else if (ht1.getOrdValue()!= ht2.getOrdValue()) {
+				return Integer.compare(ht1.getOrdValue(), ht2.getOrdValue());
+			}
+			else {
+				return Integer.compare(ht1.getId(),ht2.getId());
+			}
+			
 		}
 	};
 	

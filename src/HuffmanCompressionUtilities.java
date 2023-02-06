@@ -51,6 +51,11 @@ public class HuffmanCompressionUtilities {
 		// Instantiate the Priority Queue with the appropriate static comparator...
 		// Initialize root to null, and all other private variables
 		// including fio.
+		queue= new PriorityQueue<HuffmanTreeNode>(HuffmanTreeNode.compareWeightOrd);
+		root =null;
+		weights = new int[128];
+		fio = new MyFileIO();
+		encodeMap = new String[128];
 	}
 	
 	/**
