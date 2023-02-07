@@ -22,7 +22,20 @@ public class BinaryIO {
 	 */
 	int convStrToBin(String binStr) {
 		// TODO: Write this method
-		return -1;
+		
+		int integer = 0;
+		int multiplier = 1;
+		 
+		for (int i = binStr.length()-1;i >=0;i--) {
+			if (binStr.substring(i,i+1).equals("1")) {
+				integer +=multiplier;
+			
+			}
+			multiplier = multiplier<<1;
+			
+		}
+		
+		return integer;
 	}
 	
 	/**
@@ -34,6 +47,7 @@ public class BinaryIO {
 	String convBinToStr(int aByte) {
 		String str = "";
 		// TODO: Write this method
+		
 		return str;
 	}
 	
@@ -61,6 +75,7 @@ public class BinaryIO {
 	 */
 	 String writeBinString(BufferedOutputStream bos, String binStr) throws IOException {
 		// TODO: write this method
+		 return "";
 	 }
 	
 }

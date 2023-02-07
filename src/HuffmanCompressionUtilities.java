@@ -178,7 +178,7 @@ public class HuffmanCompressionUtilities {
 		HuffmanTreeNode left, right;
 		//TODO: write this method
 		root = null;
-		encodeMap = new String[128];
+		encodeMap = new String[NUM_ASCII];
 		initializeHuffmanQueue(minimize);
 		while (!queue.isEmpty()) {
 			
