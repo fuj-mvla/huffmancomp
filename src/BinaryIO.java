@@ -25,13 +25,13 @@ public class BinaryIO {
 		
 		int integer = 0;
 		int multiplier = 1;
-		 
+		 int mask = 0b1;
 		for (int i = binStr.length()-1;i >=0;i--) {
 			if (binStr.substring(i,i+1).equals("1")) {
-				integer +=multiplier;
+				integer = integer | mask;
 			
 			}
-			multiplier = multiplier<<1;
+			mask = mask<<1;
 			
 		}
 		
@@ -47,6 +47,14 @@ public class BinaryIO {
 	String convBinToStr(int aByte) {
 		String str = "";
 		// TODO: Write this method
+		int maxLength = 8;
+			for (int i = 0;i < maxLength;i++) {
+				int temp = aByte & 0b1;
+				str = temp + str;
+				aByte = aByte >> 1;
+			}
+			
+			
 		
 		return str;
 	}
@@ -75,7 +83,19 @@ public class BinaryIO {
 	 */
 	 String writeBinString(BufferedOutputStream bos, String binStr) throws IOException {
 		// TODO: write this method
-		 return "";
+		 int binStrLength = 8;
+		 while (binStr.length()>binStrLength) {
+			 int convert = convStrToBin(binStr.substring(0,binStrLength));
+			 bos.write(convert);
+			 binStr = binStr.substring(8);
+		 }
+		 if (binStr.length()==binStrLength) {
+			 int convert = convStrToBin(binStr);
+			 bos.write(convert);
+			 binStr="";
+		 }
+		 
+		 return binStr;
 	 }
 	
 }
