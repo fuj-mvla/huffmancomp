@@ -203,6 +203,19 @@ public class EncodeDecode {
 	 * @param optimize - exclude 0-weight nodes from the tree
 	 */
 	void decode(String bfName, String ofName, String freqWts,boolean optimize) {
+		if (errorCheck(bfName,true)||errorCheck(freqWts,true)) {
+			return;
+		}
+		if (errorCheck(ofName,false)) {
+			return;
+		}
+		weights = huffUtil.readFreqWeights(fio.getFileHandle(freqWts));
+		huffUtil.setWeights(weights);
+		huffUtil.buildHuffmanTree(optimize);
+		huffUtil.createHuffmanCodes(huffUtil.getTreeRoot(), "", 0);
+		executeDecode();
+		
+		
 	}
 	
 	// DO NOT CODE THIS METHOD UNTIL EXPLICITLY INSTRUCTED TO DO SO!!!
