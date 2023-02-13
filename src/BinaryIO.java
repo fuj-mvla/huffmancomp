@@ -24,7 +24,7 @@ public class BinaryIO {
 		// TODO: Write this method
 		
 		int integer = 0;
-		int multiplier = 1;
+	
 		 int mask = 0b1;
 		for (int i = binStr.length()-1;i >=0;i--) {
 			if (binStr.substring(i,i+1).equals("1")) {

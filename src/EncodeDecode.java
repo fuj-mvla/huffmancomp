@@ -69,6 +69,7 @@ public class EncodeDecode {
 	 */
 	void encode(String fName,String bfName, String freqWts, boolean optimize) {
 		// TODO: write this method and any required helper methods
+		
 	}
 	
 	/**
