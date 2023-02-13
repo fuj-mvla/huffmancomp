@@ -213,7 +213,12 @@ public class EncodeDecode {
 		huffUtil.setWeights(weights);
 		huffUtil.buildHuffmanTree(optimize);
 		huffUtil.createHuffmanCodes(huffUtil.getTreeRoot(), "", 0);
-		executeDecode();
+		try {
+			executeDecode(fio.getFileHandle(bfName),fio.getFileHandle(ofName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
@@ -237,6 +242,16 @@ public class EncodeDecode {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void executeDecode(File binFile, File outFile) throws IOException {
+		encodeMap = huffUtil.getEncodeMap();
+		String binStr = "";
+		BufferedReader br = fio.openBufferedReader(binFile);
+		int c ;
+		while ((c=br.read())!=-1) {
+			binStr += binUtil.convBinToStr(c);
+			while (true) {
+				
+			}
+		}
 	}
 
 }
