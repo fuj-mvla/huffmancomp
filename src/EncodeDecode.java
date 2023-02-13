@@ -69,7 +69,64 @@ public class EncodeDecode {
 	 */
 	void encode(String fName,String bfName, String freqWts, boolean optimize) {
 		// TODO: write this method and any required helper methods
+
+
+		if (errorCheck(fName,true)) {
+		return;
+		}
+	
+		if (errorCheck(freqWts,true)) {
+			File file = fio.getFileHandle(fName);
+			weights = huffUtil.readFreqWeights(file);
+		}
+		File file = fio.getFileHandle(freqWts);
+		weights = huffUtil.readFreqWeights(file);
+		if (errorCheck(bfName,false)) {
+			return;
+		}
+	
+		huffUtil.setWeights(weights);
+		huffUtil.buildHuffmanTree(optimize);
+		huffUtil.createHuffmanCodes(huffUtil.getTreeRoot(), "", 0);
 		
+		executeEncode(fio.getFileHandle(fName),fio.getFileHandle(bfName));
+		
+	}
+	
+	private boolean errorCheck(String f,boolean read) {
+		int check = fio.getFileStatus(fio.getFileHandle(f),read);
+		if (read) {
+		if (check==MyFileIO.EMPTY_NAME ) {
+			hca.issueAlert(HuffAlerts.INPUT, "Empty Name", "Empty File Name");
+			return true;
+		}
+		else if (check==MyFileIO.FILE_DOES_NOT_EXIST) {
+			hca.issueAlert(HuffAlerts.INPUT, "File Does not Exist", "File does not exist");
+			return true;
+		}
+		else if (check==MyFileIO.READ_ZERO_LENGTH) {
+			hca.issueAlert(HuffAlerts.INPUT, "Read zero Length", "File is empty");
+			return true;
+		}
+		else if (check ==MyFileIO.NO_READ_ACCESS) {
+			hca.issueAlert(HuffAlerts.INPUT, "No read access", "Cannot Read file");
+			return true;
+		}
+		}
+		else {
+			 
+			 if (check==MyFileIO.EMPTY_NAME) {
+				 hca.issueAlert(HuffAlerts.OUTPUT, "Empty Name", "Empty File Name");
+					return true;
+			 }
+			 else if (check==MyFileIO.NO_WRITE_ACCESS) {
+				 hca.issueAlert(HuffAlerts.OUTPUT, "No Write Access", "No Write Access");
+					return true;
+			 }
+			 return false;
+		}
+		return false;
+
 	}
 	
 	/**
@@ -91,6 +148,39 @@ public class EncodeDecode {
 	 */
 	private void executeEncode(File inFile, File binFile) {
 		// TODO: write this method and any required helper methods
+		encodeMap = huffUtil.getEncodeMap();
+		String binStr = "";
+		BufferedReader br = fio.openBufferedReader(inFile);
+		BufferedOutputStream brs = fio.openBufferedOutputStream(binFile);
+		
+	
+		try {
+		int c;;
+			while ((c=br.read())!=-1) {
+				binStr +=encodeMap[c];
+				
+				if (binStr.length()>=8) {
+					binStr = binUtil.writeBinString(brs, binStr);
+					
+				}
+			}
+				binStr = binStr.concat(encodeMap[0]);
+				while (binStr.length() % 8 !=0) {
+					binStr += "0";
+					
+					System.out.println(binStr.length());
+				}
+				binUtil.writeBinString(brs, binStr);
+				br.close();
+				brs.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		
 	}
 	
 	// DO NOT CODE THIS METHOD UNTIL EXPLICITLY INSTRUCTED TO DO SO!!!
