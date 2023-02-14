@@ -346,7 +346,7 @@ public class HuffmanCompressionUtilities {
 	 */
 	private int traverseTree(HuffmanTreeNode node, String binStr, int index) {
 		if (node.isLeaf()) {
-			return root.getOrdValue();
+			return node.getOrdValue();
 		}
 		else  if (binStr.length()==index) {
 			return -1;

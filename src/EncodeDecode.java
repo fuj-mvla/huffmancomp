@@ -168,7 +168,7 @@ public class EncodeDecode {
 				while (binStr.length() % 8 !=0) {
 					binStr += "0";
 					
-					System.out.println(binStr.length());
+				
 				}
 				binUtil.writeBinString(brs, binStr);
 				br.close();
@@ -244,14 +244,28 @@ public class EncodeDecode {
 	private void executeDecode(File binFile, File outFile) throws IOException {
 		encodeMap = huffUtil.getEncodeMap();
 		String binStr = "";
-		BufferedReader br = fio.openBufferedReader(binFile);
+		BufferedInputStream br = fio.openBufferedInputStream(binFile);
+		BufferedOutputStream brw = fio.openBufferedOutputStream(outFile);
 		int c ;
 		while ((c=br.read())!=-1) {
 			binStr += binUtil.convBinToStr(c);
-			while (true) {
+			int x;
+			while (( x = huffUtil.decodeString(binStr) )!=-1) {
+				
+				if (x==0){
+					System.out.println("asd");
+					br.close();
+					brw.close();
+					return;
+				}
+				if (x!=-1) {
+					brw.write(x);
+					binStr = binStr.substring(encodeMap[x].length());
+				}
 				
 			}
 		}
+		
 	}
 
 }

@@ -293,6 +293,7 @@ class HF_Decode_Test {
 		
 		checkWeightsFile();
 		huffUtil.setWeights(new int[NUM_ASCII]);
+		System.out.println("here");
 		assertTrue(removeOutputFiles());
 		enc_dec.encode(textFile, encodeFile,weightsFile,optimize);
 		enc_dec.decode(encodeFile, decodeFile,weightsFile,optimize);
