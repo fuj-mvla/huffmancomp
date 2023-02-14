@@ -253,7 +253,7 @@ public class EncodeDecode {
 			while (( x = huffUtil.decodeString(binStr) )!=-1) {
 				
 				if (x==0){
-					System.out.println("asd");
+					
 					br.close();
 					brw.close();
 					return;
