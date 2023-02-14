@@ -95,7 +95,6 @@ public class HuffmanCompressionUtilities {
 		for (int i=0;i < weights.length;i++) {
 			weights[i]=0;
 		}
-		
 	
 		BufferedReader br = fio.openBufferedReader(inf);
 		

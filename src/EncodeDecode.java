@@ -69,22 +69,24 @@ public class EncodeDecode {
 	 */
 	void encode(String fName,String bfName, String freqWts, boolean optimize) {
 		// TODO: write this method and any required helper methods
-
-
 		if (errorCheck(fName,true)) {
 		return;
 		}
-	
 		if (errorCheck(freqWts,true)) {
 			File file = fio.getFileHandle(fName);
 			weights = huffUtil.readFreqWeights(file);
 		}
+		else {
 		File file = fio.getFileHandle(freqWts);
 		weights = huffUtil.readFreqWeights(file);
+		}
+		if (!hca.issueAlert(HuffAlerts.CONFIRM, "CONFIRM", "Confirm to write to file?")) {
+			 return;
+		 };
 		if (errorCheck(bfName,false)) {
 			return;
 		}
-	
+		
 		huffUtil.setWeights(weights);
 		huffUtil.buildHuffmanTree(optimize);
 		huffUtil.createHuffmanCodes(huffUtil.getTreeRoot(), "", 0);
@@ -209,6 +211,9 @@ public class EncodeDecode {
 		if (errorCheck(ofName,false)) {
 			return;
 		}
+		if (!hca.issueAlert(HuffAlerts.CONFIRM, "CONFIRM", "Confirm to write to file?")) {
+			 return;
+		 };
 		weights = huffUtil.readFreqWeights(fio.getFileHandle(freqWts));
 		huffUtil.setWeights(weights);
 		huffUtil.buildHuffmanTree(optimize);
@@ -265,6 +270,9 @@ public class EncodeDecode {
 				
 			}
 		}
+		br.close();
+		brw.close();
+		
 		
 	}
 
