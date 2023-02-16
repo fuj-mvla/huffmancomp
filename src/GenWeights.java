@@ -111,6 +111,13 @@ public class GenWeights {
 		return;
 
 	}
+	
+	/**
+	 * error checks the file, returns true if there is an error and issues alert
+	 *
+	 * @param filename the filename
+	 * @return true, if successful
+	 */
 	private boolean errorCheck(String filename) {
 		int check = fio.getFileStatus(fio.getFileHandle(filename),true);
 		if (check==MyFileIO.EMPTY_NAME ) {
@@ -204,7 +211,14 @@ public class GenWeights {
 		}
 		fio.closeFile(wr);
 	}
-	 private boolean errorCheckWrite(String out) {
+	 
+ 	/**
+ 	 * error checks the write, returns true if error
+ 	 *
+ 	 * @param out the out
+ 	 * @return true, if successful
+ 	 */
+ 	private boolean errorCheckWrite(String out) {
 		 File file = fio.getFileHandle(out);
 		 if (fio.getFileStatus(file, false)==MyFileIO.EMPTY_NAME) {
 			 hca.issueAlert(HuffAlerts.OUTPUT, "Empty Name", "Empty File Name");

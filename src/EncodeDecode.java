@@ -95,6 +95,13 @@ public class EncodeDecode {
 		
 	}
 	
+	/**
+	 * Error checks the file based on if read is true or not, returns true if there is error and issues alert.
+	 *
+	 * @param f the f
+	 * @param read the read
+	 * @return true, if successful
+	 */
 	private boolean errorCheck(String f,boolean read) {
 		int check = fio.getFileStatus(fio.getFileHandle(f),read);
 		if (read) {
